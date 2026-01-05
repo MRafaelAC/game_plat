@@ -38,6 +38,11 @@ export default function PlayerCanvas({
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
 
+    // Música de fundo
+    const backgroundMusic = new Audio(process.env.PUBLIC_URL + '/assets/music.mp3');
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.15; // volume baixinho (15%)
+
     // Carregar imagens
     const img = new Image();
     img.src = staticSprite || process.env.PUBLIC_URL + '/assets/ps.png';
@@ -135,6 +140,15 @@ export default function PlayerCanvas({
     resize();
     window.addEventListener('resize', resize);
 
+    // Iniciar música quando o jogo começar
+    let musicStarted = false;
+    const startMusic = () => {
+      if (!musicStarted && gameStarted) {
+        backgroundMusic.play().catch(e => console.log('Erro ao tocar música:', e));
+        musicStarted = true;
+      }
+    };
+
     // keyboard handlers (simple mapping to p)
     function onKey(e, down) {
       // prevent arrow keys from scrolling page
@@ -169,6 +183,9 @@ export default function PlayerCanvas({
         requestAnimationFrame(loop);
         return;
       }
+
+      // Iniciar música quando o jogo começar
+      startMusic();
 
       // Updates
       if (playerRef.current) playerRef.current.update();
@@ -332,6 +349,8 @@ export default function PlayerCanvas({
 
     return () => {
       running = false;
+      backgroundMusic.pause();
+      backgroundMusic.currentTime = 0;
       window.removeEventListener('resize', resize);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
