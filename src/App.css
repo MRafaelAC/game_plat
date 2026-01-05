@@ -1,0 +1,36 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  /* background-image removed: set it in App.js via process.env.PUBLIC_URL to use public/ assets */
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  image-rendering: pixelated; /* mantém pixel art nítida quando escalada */
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background: transparent;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.6);
+}
+
+
+.App-link {
+  color: #61dafb;
+}
+
+/* player sprite (non-canvas) */
+.player-sprite {
+  image-rendering: pixelated; /* keep pixel art sharp */
+  z-index: 2;
+  will-change: background-position; /* hint to browser this will change */
+}
